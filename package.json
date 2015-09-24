@@ -1,7 +1,7 @@
 {
   "name": "datamap-icons",
   "version": "0.0.1",
-  "description": "A datamaps plugin to display a layer of icons on a datamap svg",
+  "description": "A Datamaps plugin to display a layer of icons on a Datamap svg",
   "main": "build/datamaps-icons.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -18,3 +18,4 @@
     "grunt-text-replace": "^0.4.0"
   }
 }
+
