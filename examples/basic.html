@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.min.js"></script>
+        <script src="../node_modules/datamaps/dist/datamaps.all.js"></script>
+        <script src="../src/datamap-icons.js"></script>
+    </head>
+    <body>
+        <style>
+            #map {
+                position: relative;
+                margin: 0 auto;
+                width: 800px;
+                height: 450px;
+            }
+        </style>
+        <div id="map"></div>
+        <script>
+            var data = [
+                {
+                    lat: 0,
+                    lng: 0,
+                },
+                {
+                    lat: -45,
+                    lng: 99,
+                },
+                {
+                    lat: 10,
+                    lng: 10
+                }
+            ];
+            var dm = new Datamap({
+                element: document.getElementById('map')
+            });
+            Datamap.addIconsPlugin(dm);
+            dm.icons(data);
+        </script>
+    </body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.min.js"></script>
+        <script src="../node_modules/datamaps/dist/datamaps.all.js"></script>
+        <script src="../src/datamap-icons.js"></script>
+    </head>
+    <body>
+        <style>
+            #map {
+                position: relative;
+                margin: 0 auto;
+                width: 800px;
+                height: 450px;
+            }
+        </style>
+        <div id="map"></div>
+        <script>
+            var icon1 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            icon1.setAttributeNS(null, 'd', "M 0 0 l 0 50 l 50 0 l -50 -50");
+            icon1.setAttributeNS(null, 'fill', 'blue');
+            var icon2 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            icon2.setAttributeNS(null, 'd', "M 0 0 l 50 50 l 0 -50 l -50 0");
+            icon2.setAttributeNS(null, 'fill', 'red');
+            var data = [
+                {
+                    lat: 0,
+                    lng: 0,
+                    icon: icon1,
+                    cssClass: 'test'
+                },
+                {
+                    lat: -45,
+                    lng: 99,
+                    icon: icon2
+                },
+                {
+                    lat: 10,
+                    lng: 10
+                }
+            ];
+            var dm = new Datamap({
+                element: document.getElementById('map')
+            });
+            Datamap.addIconsPlugin(dm);
+            dm.icons(data);
+        </script>
+    </body>
+</html>
