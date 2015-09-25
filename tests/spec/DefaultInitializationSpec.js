@@ -16,6 +16,19 @@ describe('icons plugin - defaults', function() {
     }
   ];
 
+  // The points must be within the USA projection
+  // otherwise datamaps punts on the latlngToXY conversion.
+  var usaData = [
+    {
+      lat: 45,
+      lng: -95
+    },
+    {
+      lat: 40,
+      lng: -90
+    }
+  ];
+
   beforeEach(function() {
     loadFixtures('map.html');
     map = document.getElementById('map');
@@ -48,8 +61,8 @@ describe('icons plugin - defaults', function() {
       element: map,
       scope: 'usa'
     });
-    dm.icons(defaultData);
-    verifyIconCount('.datamap-icon', defaultData);
+    dm.icons(usaData);
+    verifyIconCount('.datamap-icon', usaData);
   });
 
 });
