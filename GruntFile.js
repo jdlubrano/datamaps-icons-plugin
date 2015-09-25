@@ -50,7 +50,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jasmine');
 
   // Default task(s).
-  grunt.registerTask('default', ['copy', 'uglify']);
+  grunt.registerTask('default', ['test', 'copy', 'uglify']);
   grunt.registerTask('test', ['jasmine:dev']);
 
 };
