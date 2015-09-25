@@ -4,16 +4,13 @@
 
 (function() {
 
-  var addIconsPlugin = function(datamap, fnName) {
-    fnName = fnName || 'icons';
-    datamap.addPlugin(fnName, iconsPlugin);
-  };
+  var PLUGIN_NAME = 'icons';
 
   var iconsPlugin = function(layer, data, options) {
     var SVG_NS = 'http://www.w3.org/2000/svg';
     var self = this;
     
-    var defaultOptions = {
+    defaultOptions = {
       cssClass: 'datamap-icon',
       iconFn: function() {
         // default to a black circle.
@@ -99,13 +96,11 @@
   };
 
   if(Datamap !== undefined) {
-    Datamap.addIconsPlugin = addIconsPlugin;
-  }
-
-  if(typeof define === 'function' && define.amd) {
-    define(['datamaps'], function(Datamap) {
-      Datamap.addIconsPlugin = addIconsPlugin;
-    });
+    // Adding the plugin to a Datamaps instance binds
+    // to the Datamaps prototype, so we create an arbitrary
+    // instance and add the icons plugin.
+    var dm = new Datamap({ element: document.createElement('div') });
+    dm.addPlugin(PLUGIN_NAME, iconsPlugin);
   }
 
   return iconsPlugin;

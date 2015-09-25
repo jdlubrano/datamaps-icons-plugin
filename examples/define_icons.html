@@ -41,9 +41,9 @@
                 }
             ];
             var dm = new Datamap({
-                element: document.getElementById('map')
+                element: document.getElementById('map'),
+                scope: 'usa'
             });
-            Datamap.addIconsPlugin(dm);
             dm.icons(data);
         </script>
     </body>
