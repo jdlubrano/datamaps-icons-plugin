@@ -1,4 +1,4 @@
-# Datamaps Icons Plugin
+# Datamaps Icons Plugin ![Travis CI Status](https://travis-ci.org/jdlubrano/datamap-icons-plugin.svg?branch=master)
 ## Joel Lubrano
 
 ## Description
