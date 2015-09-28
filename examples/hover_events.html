@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.min.js"></script>
+        <script src="../node_modules/datamaps/dist/datamaps.all.js"></script>
+        <script src="../src/datamaps-icons.js"></script>
+    </head>
+    <body>
+        <style>
+            #map {
+                position: relative;
+                margin: 0 auto;
+                width: 800px;
+                height: 450px;
+            }
+
+            #tooltip {
+                position: fixed;
+                display: none;
+                z-index: 10;
+            }
+
+            #tooltip.active {
+                display: inline-block;
+                background: white;
+                border: 1px solid black;
+            }
+        </style>
+        <div id="map"></div>
+        <div id="tooltip"></div>
+        <script>
+            var data = [
+                {
+                    lat: 0,
+                    lng: 0,
+                    foo: {
+                        tt: 'This is some tooltip content'
+                    }
+                },
+                {
+                    lat: -45,
+                    lng: 99,
+                    foo: {
+                        tt: 'This is another tooltip'
+                    }
+                },
+                {
+                    lat: 10,
+                    lng: 10,
+                    foo: {
+                        tt: '<h4>This is HTML tooltip content</h4>'
+                    }
+                }
+            ];
+            var dm = new Datamap({
+                element: document.getElementById('map')
+            });
+            // Typical tooltip use case
+            var tooltip = document.getElementById('tooltip');
+            var opts = {
+                hover: {
+                    overFn: function(d, i) {
+                        tooltip.innerHTML = d.foo.tt;
+                        tooltip.style.top = d3.event.pageY - 10 + 'px';
+                        tooltip.style.left = d3.event.pageX + 15 + 'px';
+                        tooltip.className = 'active';
+                    },
+                    outFn: function(d, i) {
+                        tooltip.className = '';
+                    }
+                }
+            };
+            dm.icons(data, opts);
+        </script>
+    </body>
+</html>
