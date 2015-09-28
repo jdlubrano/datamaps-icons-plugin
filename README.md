@@ -1,5 +1,7 @@
 # Datamaps Icons Plugin ![Travis CI Status](https://travis-ci.org/jdlubrano/datamap-icons-plugin.svg?branch=master)
-## Joel Lubrano
+
+## Contributors
+* Joel Lubrano
 
 ## Description
 This project provides a plugin for generating a layer of customizable
@@ -7,7 +9,17 @@ icons on top of a D3/Datamaps svg.
 
 ## Getting Started
 
+### Git
+Clone the project via `git`.  Dependencies can be installed with `npm install`,
+and running `grunt` will build the source code.  The original and minified
+versions will be present in the build directory.
+
+### NPM
+Run `npm install datamaps-icons`.  The source will then be located in 
+`node_modules/datamaps-icons/build`.
+
 ## Sample Usage
+See `examples/basic_usage.html`.
 
 ## Dependencies
-
+See `package.json`.

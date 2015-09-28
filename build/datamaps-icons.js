@@ -1,4 +1,4 @@
-// datamap-icons.js
+// datamaps-icons.js
 // Author: Joel Lubrano
 // The datamaps icons plugin.
 

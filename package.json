@@ -1,5 +1,5 @@
 {
-  "name": "datamap-icons",
+  "name": "datamaps-icons",
   "version": "0.0.1",
   "description": "A Datamaps plugin to display a layer of icons on a Datamap svg",
   "main": "build/datamaps-icons.js",
@@ -8,7 +8,7 @@
   },
   "author": "Joel Lubrano<joel.lubrano@gmail.com>",
   "license": "ISC",
-  "repository": "http://github.com/jdlubrano/datamap-icons-plugin",
+  "repository": "http://github.com/jdlubrano/datamaps-icons-plugin",
   "devDependencies": {
     "datamaps": "^0.4.0",
     "grunt": "^0.4.5",
