@@ -3,3 +3,5 @@ src
 tests
 .gitignore
 .travis.yml
+*.sublime-project
+*.sublime-workspace
