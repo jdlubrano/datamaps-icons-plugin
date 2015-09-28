@@ -22,7 +22,11 @@
         circle.setAttribute('stroke-width', 1);
         circle.setAttribute('fill', '#000');
         return circle;
-      }    
+      },
+      hover: {
+        overFn: null,
+        outFn: null
+      }
     };
 
     var overrideProps = function(orig, addition) {
@@ -76,12 +80,30 @@
       return cssClass;
     };
 
+    var getSelection = function() {
+      return layer.selectAll('.' + options.cssClass);
+    };
+
+    var setupHoverEvents = function() {
+      var dispatch = d3.dispatch('hoverOver', 'hoverOut');
+
+      var icons = getSelection();
+
+      icons.on("mouseover", function(d, i) {
+        dispatch.hoverOver.apply(this, [d, i]);
+      });
+
+      icons.on("mouseout", function(d, i) {
+        dispatch.hoverOut.apply(this, [d, i]);
+      });
+
+      dispatch.on("hoverOver.icon", options.hover.overFn);
+      dispatch.on("hoverOut.icon", options.hover.outFn);
+    };
+
     options = overrideProps(defaultOptions, options);
 
-    var icons = layer
-      .selectAll('.' + options.cssClass)
-      .data(data)
-    ;
+    var icons = getSelection().data(data);
 
     icons.enter()
       .append(resolveIcon)
@@ -95,7 +117,10 @@
 
     icons.exit().remove();
 
+    setupHoverEvents();
+
   };
+
 
   if(Datamap !== undefined) {
     // Adding the plugin to a Datamaps instance binds
