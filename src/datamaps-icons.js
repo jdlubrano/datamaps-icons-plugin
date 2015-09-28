@@ -1,6 +1,8 @@
-// datamap-icons.js
+// datamaps-icons.js
 // Author: Joel Lubrano
 // The datamaps icons plugin.
+
+"use strict";
 
 (function() {
 
@@ -10,7 +12,7 @@
     var SVG_NS = 'http://www.w3.org/2000/svg';
     var self = this;
     
-    defaultOptions = {
+    var defaultOptions = {
       cssClass: 'datamap-icon',
       iconFn: function() {
         // default to a black circle.
