@@ -14,7 +14,7 @@ icons on top of a D3/Datamaps svg.
 ### Git
 Clone the project via `git`.  Dependencies can be installed with `npm install`,
 and running `grunt` will build the source code.  The original and minified
-versions will be present in the build directory.
+versions will be present in the `build` directory.
 
 ### NPM
 Run `npm install datamaps-icons`.  The source will then be located in 
