@@ -26,6 +26,17 @@
                 background: white;
                 border: 1px solid black;
             }
+
+            /* Apply styling to the default 'hover-over' class */
+            .hover-over {
+                cursor: pointer;
+                fill: blue;
+            }
+
+            .special-hover-over {
+                stroke: red;
+                stroke-width: 10px;
+            }
         </style>
         <div id="map"></div>
         <div id="tooltip"></div>
@@ -50,18 +61,23 @@
                     lng: 10,
                     foo: {
                         tt: '<h4>This is HTML tooltip content</h4>'
+                    },
+                    // apply a unique css class on hoverover
+                    hover: {
+                        overClass: 'special-hover-over'
                     }
                 }
             ];
             var dm = new Datamap({
                 element: document.getElementById('map')
             });
-            // Typical tooltip use case
+            // Typical, and admittedly extremely rudimentary, tooltip use case
             var tooltip = document.getElementById('tooltip');
             var opts = {
                 hover: {
                     overFn: function(d, i) {
                         tooltip.innerHTML = d.foo.tt;
+                        // hacky way to locate a tooltip
                         tooltip.style.top = d3.event.pageY - 10 + 'px';
                         tooltip.style.left = d3.event.pageX + 15 + 'px';
                         tooltip.className = 'active';

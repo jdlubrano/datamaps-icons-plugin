@@ -25,7 +25,9 @@
       },
       hover: {
         overFn: null,
-        outFn: null
+        overClass: 'hover-over',
+        outFn: null,
+        outClass: 'hover-out'
       }
     };
 
@@ -33,7 +35,11 @@
       // add the properties from orig that 
       // do not already exist in addition.
       for(var prop in orig) {
-        if(addition[prop] == null) addition[prop] = orig[prop];
+        if(typeof orig[prop] === "object" && addition[prop]) {
+          overrideProps(orig[prop], addition[prop]);
+        } else {
+          if(addition[prop] == null) addition[prop] = orig[prop];
+        }
       }
       return addition;
     };
@@ -69,15 +75,41 @@
       );
     };
 
-    var resolveCssClass = function(d, i) {
+    var resolveCssClass = function(el, cssClass) {
       // if d.cssClass is defined, then append d.cssClass to
       // the existing class attribute.
-      var cssClass = this.getAttribute('class');
-      var selection = d3.select(this);
-      if(d.cssClass && !selection.classed(d.cssClass)) {
-        cssClass += ' ' + d.cssClass;
+      var currentClass = el.getAttribute('class');
+      var selection = d3.select(el);
+      if(cssClass && !selection.classed(cssClass)) {
+        currentClass += ' ' + cssClass;
+      }
+      return currentClass;
+    };
+
+    var resolveIconCssClass = function(d, i) {
+      return resolveCssClass(this, d.cssClass);
+    };
+
+    var resolveHoverOverCssClass = function(el, d) {
+      var cssClass = options.hover.overClass;
+      if(d.hover) {
+        cssClass = d.hover.overClass ? d.hover.overClass : cssClass;
       }
       return cssClass;
+    };
+
+    var resolveHoverOutCssClass = function(el, d) {
+      var cssClass = options.hover.outClass;
+      if(d.hover) {
+        cssClass = d.hover.outClass ? d.hover.outClass : cssClass;
+      }
+      return cssClass;
+    };
+
+    var applyHoverCssClasses = function(el, d, hoverOn) {
+      var selection = d3.select(el);
+      selection.classed(resolveHoverOverCssClass(el, d), hoverOn);
+      selection.classed(resolveHoverOutCssClass(el, d), !hoverOn);
     };
 
     var getSelection = function() {
@@ -90,16 +122,20 @@
       var icons = getSelection();
 
       icons.on("mouseover", function(d, i) {
+        applyHoverCssClasses(this, d, true);
         dispatch.hoverOver.apply(this, [d, i]);
       });
 
       icons.on("mouseout", function(d, i) {
+        applyHoverCssClasses(this, d, false);
         dispatch.hoverOut.apply(this, [d, i]);
       });
 
       dispatch.on("hoverOver.icon", options.hover.overFn);
       dispatch.on("hoverOut.icon", options.hover.outFn);
     };
+
+    // Draw icons layer
 
     options = overrideProps(defaultOptions, options);
 
@@ -112,7 +148,7 @@
 
     icons
       .attr('transform', genTranslateStr)
-      .attr('class', resolveCssClass)
+      .attr('class', resolveIconCssClass)
     ;
 
     icons.exit().remove();
