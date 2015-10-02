@@ -11,7 +11,7 @@
   var iconsPlugin = function(layer, data, options) {
     var SVG_NS = 'http://www.w3.org/2000/svg';
     var self = this;
-    
+  
     var defaultOptions = {
       cssClass: 'datamap-icon',
       iconFn: function() {
@@ -28,8 +28,17 @@
         overClass: 'hover-over',
         outFn: null,
         outClass: 'hover-out'
+      },
+      click: {
+        allowMultiple: false,
+        onFn: null,
+        onClass: 'click-on',
+        offFn: null,
+        offClass: 'click-off'
       }
     };
+
+    var dispatch = d3.dispatch('hoverOver', 'hoverOut', 'clickOn', 'clickOff');
 
     var overrideProps = function(orig, addition) {
       // add the properties from orig that 
@@ -116,10 +125,16 @@
       return layer.selectAll('.' + options.cssClass);
     };
 
-    var setupHoverEvents = function() {
-      var dispatch = d3.dispatch('hoverOver', 'hoverOut');
+    var getState = function() {
+      return self.state;
+    };
+
+    var setupHoverListeners = function() {
 
       var icons = getSelection();
+
+      dispatch.on("hoverOver.icon", options.hover.overFn);
+      dispatch.on("hoverOut.icon", options.hover.outFn);
 
       icons.on("mouseover", function(d, i) {
         applyHoverCssClasses(this, d, true);
@@ -130,9 +145,87 @@
         applyHoverCssClasses(this, d, false);
         dispatch.hoverOut.apply(this, [d, i]);
       });
+    };
 
-      dispatch.on("hoverOver.icon", options.hover.overFn);
-      dispatch.on("hoverOut.icon", options.hover.outFn);
+    var resolveClickOnCssClass = function(d) {
+      var cssClass = options.click.onClass;
+      if(d.click) {
+        cssClass = d.click.onClass ? d.click.onClass : cssClass;
+      }
+      return cssClass;
+    };
+
+    var resolveClickOffCssClass = function(d) {
+      var cssClass = options.click.offClass;
+      if(d.click) {
+        cssClass = d.click.offClass ? d.click.offClass : cssClass;
+      }
+      return cssClass;
+    };
+
+
+    var getClickedIcons = function() {
+      var inClickOnState = [];
+      getSelection().each(function(d, i) {
+        var clickOnCssClass = resolveClickOnCssClass(d);
+        if(d3.select(this).classed(clickOnCssClass)) {
+          inClickOnState.push(this);
+        }
+      });
+      return inClickOnState;
+    };
+
+    var getClickedIcon = function() {
+      return getClickedIcons()[0];
+    };
+
+    var iconInClickedState = function(iconElement) {
+      return getClickedIcons().indexOf(iconElement) !== -1;
+    };
+
+    var applyClickCssClassToIcon = function(iconElement, clickOn) {
+      var selection = d3.select(iconElement);
+      var d = selection.data();
+      var clickOnCssClass = resolveClickOnCssClass(d);
+      var clickOffCssClass = resolveClickOffCssClass(d);
+      selection.classed(clickOnCssClass, clickOn);
+      selection.classed(clickOffCssClass, !clickOn);
+      return selection;
+    };
+
+    var applyClickOnToIcon = function(iconElement) {
+      var selection = applyClickCssClassToIcon(iconElement, true);
+      dispatch.clickOn.apply(iconElement, selection.data());
+    };
+
+    var applyClickOffToIcon = function(iconElement) {
+      var selection = applyClickCssClassToIcon(iconElement, false);
+      dispatch.clickOff.apply(iconElement, selection.data());
+    };
+
+    var setupClickListeners = function() {
+
+      var icons = getSelection();
+
+      dispatch.on('clickOn.icon', options.click.onFn);
+      dispatch.on('clickOff.icon', options.click.offFn);
+
+      icons.on("click", function(d, i) {
+        var alreadyInClickedState = iconInClickedState(this);
+        if(options.click.allowMultiple) {
+          if(alreadyInClickedState) {
+            applyClickOffToIcon(this);
+          } else {
+            applyClickOnToIcon(this);
+          }
+        } else {
+          applyClickOffToIcon(getClickedIcon());
+          if(!alreadyInClickedState) {
+            applyClickOnToIcon(this);
+          }
+        }
+      });
+
     };
 
     // Draw icons layer
@@ -153,7 +246,7 @@
 
     icons.exit().remove();
 
-    setupHoverEvents();
+    setupHoverListeners();
 
   };
 
