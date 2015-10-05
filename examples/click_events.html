@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.min.js"></script>
+        <script src="../node_modules/datamaps/dist/datamaps.all.js"></script>
+        <script src="../src/datamaps-icons.js"></script>
+    </head>
+    <body>
+        <style>
+            .map {
+                position: relative;
+                margin: 0 auto;
+                width: 800px;
+                height: 450px;
+            }
+
+            /* Apply styling to the default 'hover-over' class */
+            .datamap-icon {
+                cursor: pointer;
+            }
+
+            .click-on {
+                fill: blue;
+            }
+
+            .click-off {
+                fill: red;
+            }
+
+            .special-click-on {
+                fill: yellow;
+            }
+
+            .special-click-off {
+                fill: purple;
+            }
+
+        </style>
+        <h4>Does not allow multiple icons to be clicked (default)</h4>
+        <div class="map" id="map1"></div>
+        <button id="resetMap1">Clear Clicks</button>
+        <h4>Allow multiple icons to be clicked</h4>
+        <div class="map" id="map2"></div>
+        <script>
+            var data = [
+                {
+                    lat: 0,
+                    lng: 0,
+                },
+                {
+                    lat: -45,
+                    lng: 99,
+                },
+                {
+                    lat: 10,
+                    lng: 10,
+                    // apply a unique css class on hoverover
+                    click: {
+                        onClass: 'special-click-on',
+                        offClass: 'special-click-off'
+                    }
+                }
+            ];
+
+            var dm = new Datamap({
+                element: document.getElementById('map1')
+            });
+
+            var opts = {
+                click: {
+                    onFn: function(d) {
+                        console.log("ON", d);
+                    },
+                    offFn: function(d) {
+                        console.log("OFF", d);
+                    }
+                }
+            };
+
+            dm.icons(data, opts);
+            // TODO:    should this be provided as a convenience function
+            //          within the plugin? Perhaps...
+            var resetMap1 = document.getElementById('resetMap1');
+            resetMap1.onclick = function() {
+                var icons = dm.svg.selectAll('.datamap-icon');
+                icons.classed('click-on', false)
+                    .classed('click-off', false)
+                    .classed('special-click-off', false)
+                    .classed('special-click-on', false)
+                ;
+            };
+
+            // Setup a second map that shows allowMultiple behavior
+
+            var opts2 = {
+                click: {
+                    allowMultiple: true
+                }
+            };
+
+            var dm2 = new Datamap({ element: document.getElementById('map2') });
+            dm2.icons(data, opts2);
+        </script>
+    </body>
+</html>
