@@ -10,21 +10,23 @@ describe('icons plugin - hover events', function() {
   var hoverOverSpy;
   var hoverOutSpy;
   var $icons;
-
-  var TEST_DATA = [
-    {
-      lat: 0,
-      lng: 0
-    },
-    {
-      lat: 50,
-      lng: 50
-    }
-  ];
-
-  var TEST_OPTS = {};
+  var TEST_DATA;
+  var TEST_OPTS;
 
   beforeEach(function() {
+    TEST_DATA = [
+      {
+        lat: 0,
+        lng: 0
+      },
+      {
+        lat: 50,
+        lng: 50
+      }
+    ];
+
+    TEST_OPTS = {};
+
     loadFixtures('map.html');
     hoverOverSpy = jasmine.createSpy('hoverOver');
     hoverOutSpy = jasmine.createSpy('hoverOut');
@@ -54,13 +56,13 @@ describe('icons plugin - hover events', function() {
     icon.dispatchEvent(evt);
   };
 
-  it('should call only the options.hoverOverFn on a mouse over event', function() {
+  it('should call only the options.hover.overFn on a mouse over event', function() {
     moveMouseOverIcon($icons[0]);
     expect(hoverOverSpy).toHaveBeenCalled();
     expect(hoverOutSpy).not.toHaveBeenCalled();
   });
 
-  it('should call only the options.hoverOutFn on a mouse leave event', function() {
+  it('should call only the options.hover.outFn on a mouse leave event', function() {
     moveMouseOutOfIcon($icons[0]);
     expect(hoverOutSpy).toHaveBeenCalled();
     expect(hoverOverSpy).not.toHaveBeenCalled();

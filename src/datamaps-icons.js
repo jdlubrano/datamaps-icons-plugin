@@ -163,7 +163,6 @@
       return cssClass;
     };
 
-
     var getClickedIcons = function() {
       var inClickOnState = [];
       getSelection().each(function(d, i) {
@@ -185,7 +184,7 @@
 
     var applyClickCssClassToIcon = function(iconElement, clickOn) {
       var selection = d3.select(iconElement);
-      var d = selection.data();
+      var d = selection.data()[0]; // selection.data() produces an array of data.
       var clickOnCssClass = resolveClickOnCssClass(d);
       var clickOffCssClass = resolveClickOffCssClass(d);
       selection.classed(clickOnCssClass, clickOn);
@@ -199,6 +198,7 @@
     };
 
     var applyClickOffToIcon = function(iconElement) {
+      if(!iconElement) return;
       var selection = applyClickCssClassToIcon(iconElement, false);
       dispatch.clickOff.apply(iconElement, selection.data());
     };
@@ -247,6 +247,7 @@
     icons.exit().remove();
 
     setupHoverListeners();
+    setupClickListeners();
 
   };
 
