@@ -251,7 +251,6 @@
 
   };
 
-
   if(Datamap !== undefined) {
     // Adding the plugin to a Datamaps instance binds
     // to the Datamaps prototype, so we create an arbitrary
