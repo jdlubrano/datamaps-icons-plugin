@@ -40,6 +40,25 @@ module.exports = function(grunt) {
           ]
         }
       }
+    },
+    version: {
+      project: {
+        src: ['package.json', 'package.js']
+      }
+    },
+    shell: {
+      options: {
+        failOnError: true,
+      },
+      meteor_test: {
+        command: "node_modules/.bin/spacejam test-packages ./"
+      },
+      meteor_publish: {
+        command: "meteor publish"
+      },
+      npm_publish: {
+        command: "npm publish"
+      }
     }
   });
 
@@ -48,9 +67,22 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
+  grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-version');
 
   // Default task(s).
   grunt.registerTask('default', ['test', 'copy', 'uglify']);
   grunt.registerTask('test', ['jasmine:dev']);
+
+  // To be run after re-versioning
+  grunt.registerTask(
+    'publish',
+    [
+      'default',
+      'shell:meteor_test',
+      'shell:npm_publish',
+      'shell:meteor_publish'
+    ]
+  );
 
 };
