@@ -6,3 +6,4 @@ Tinytest.add('Datamap instances have an icon method defined', function(test) {
   var dm = new Datamap({ element: document.createElement('div') });
   test.isNotUndefined(dm.icons);
 });
+
