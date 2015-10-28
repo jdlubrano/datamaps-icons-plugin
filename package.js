@@ -4,7 +4,7 @@
 
 Package.describe({
   summary: "A plugin to the Datamaps library that provides support for overlaying svg icons.",
-  version: "0.2.2",
+  version: "0.2.3",
   name: "jdlubrano:datamaps-icons",
   git: "https://github.com/jdlubrano/datamaps-icons.git"
 });
