@@ -1,6 +1,6 @@
 {
   "name": "datamaps-icons",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "A Datamaps plugin to display a layer of icons on a Datamap svg",
   "main": "build/datamaps-icons.js",
   "scripts": {
