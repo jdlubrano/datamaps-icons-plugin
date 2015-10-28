@@ -183,4 +183,15 @@ describe('icons plugin - click events', function() {
     expect(clickAwaySpy.calls.first().object).toBe(dm);
   });
 
+  it('should fire the click off event on a click away from an icon if the' +
+    ' click.clickOffOnClickAway option is set to true',
+    function() {
+      TEST_OPTS.click.clickOffOnClickAway = true;
+      dm.icons(TEST_DATA, TEST_OPTS);
+      clickIcon(0); // click an icon first otherwise the click off won't be called.
+      clickAwayFromIcon();
+      expect(clickOffSpy).toHaveBeenCalled();
+    }
+  );
+
 });

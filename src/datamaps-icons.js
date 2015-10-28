@@ -35,7 +35,8 @@
         onClass: 'click-on',
         offFn: null,
         offClass: 'click-off',
-        awayFromIconFn: null
+        awayFromIconFn: null,
+        clickOffOnClickAway: false
       }
     };
 
@@ -219,6 +220,10 @@
       dispatch.clickOff.apply(iconElement, selection.data());
     };
 
+    var unclickAllIcons = function() {
+      getClickedIcons().forEach(applyClickOffToIcon);
+    };
+
     var setupIconClickListeners = function() {
       var icons = getSelection();
 
@@ -247,6 +252,9 @@
       dispatch.on('clickAwayFromIcon.svg', options.click.awayFromIconFn);
       self.svg.on('click', function(d, i) {
         dispatch.clickAwayFromIcon.apply(self);
+        if(options.click.clickOffOnClickAway) {
+          unclickAllIcons();
+        }
       });
     };
 
