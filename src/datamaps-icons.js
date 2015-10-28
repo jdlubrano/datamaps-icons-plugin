@@ -53,21 +53,30 @@
       return addition;
     };
 
-    var latLngToX = function(d) {
+    var lngToX = function(d) {
       return self.latLngToXY(d.lat, d.lng)[0];
     };
 
-    var latLngToY = function(d) {
+    var latToY = function(d) {
       return self.latLngToXY(d.lat, d.lng)[1];
     };
 
+    var isCircle = function(elem) {
+      return elem.tagName === 'circle';
+    };
+
     var genTranslateStr = function(d, i) {
+      // Unless the element is a circle,
       // SVG translations place the top-left corner of the element at (x,y).
       // Ideally, the icon would be centered at (x,y) so we must compensate
       // by centering the SVG bounding box.
-      var bbox = this.getBBox();
-      var centerX = latLngToX(d) - bbox.width / 2;
-      var centerY = latLngToY(d) - bbox.height / 2;
+      var centerX = lngToX(d);
+      var centerY = latToY(d);
+      if(!isCircle(this)) {
+        var bbox = this.getBBox();
+        centerX -= bbox.width / 2;
+        centerY -= bbox.height / 2;
+      }
       return 'translate(' + centerX + ',' + centerY + ')';
     };
 
