@@ -34,11 +34,18 @@
         onFn: null,
         onClass: 'click-on',
         offFn: null,
-        offClass: 'click-off'
+        offClass: 'click-off',
+        awayFromIconFn: null
       }
     };
 
-    var dispatch = d3.dispatch('hoverOver', 'hoverOut', 'clickOn', 'clickOff');
+    var dispatch = d3.dispatch(
+      'hoverOver',
+      'hoverOut',
+      'clickOn',
+      'clickOff',
+      'clickAwayFromIcon'
+    );
 
     var overrideProps = function(orig, addition) {
       // add the properties from orig that 
@@ -212,14 +219,14 @@
       dispatch.clickOff.apply(iconElement, selection.data());
     };
 
-    var setupClickListeners = function() {
-
+    var setupIconClickListeners = function() {
       var icons = getSelection();
 
       dispatch.on('clickOn.icon', options.click.onFn);
       dispatch.on('clickOff.icon', options.click.offFn);
 
       icons.on("click", function(d, i) {
+        d3.event.stopPropagation(); // stop from bubbling to svg
         var alreadyInClickedState = iconInClickedState(this);
         if(options.click.allowMultiple) {
           if(alreadyInClickedState) {
@@ -234,7 +241,18 @@
           }
         }
       });
+    };
 
+    var setupClickAwayFromIconListener = function() {
+      dispatch.on('clickAwayFromIcon.svg', options.click.awayFromIconFn);
+      self.svg.on('click', function(d, i) {
+        dispatch.clickAwayFromIcon.apply(self);
+      });
+    };
+
+    var setupClickListeners = function() {
+      setupIconClickListeners();
+      setupClickAwayFromIconListener();
     };
 
     // Draw icons layer

@@ -5,7 +5,7 @@ jasmine.getFixtures().fixturesPath = 'tests/fixtures';
 
 describe('icons plugin - click events', function() {
 
-  var dm, map, clickOnSpy, clickOffSpy, icons;
+  var dm, map, clickOnSpy, clickOffSpy, clickAwaySpy, icons;
 
   var TEST_DATA, TEST_OPTS;
 
@@ -24,11 +24,13 @@ describe('icons plugin - click events', function() {
     loadFixtures('map.html');
     clickOnSpy = jasmine.createSpy('clickOn');
     clickOffSpy = jasmine.createSpy('clickOff');
+    clickAwaySpy = jasmine.createSpy('clickAway');
     
     TEST_OPTS = {
       click: {
         onFn: clickOnSpy,
-        offFn: clickOffSpy
+        offFn: clickOffSpy,
+        awayFromIconFn: clickAwaySpy
       }
     };
 
@@ -45,9 +47,17 @@ describe('icons plugin - click events', function() {
     icon.dispatchEvent(evt);
   };
 
+  var clickAwayFromIcon = function() {
+    var evt = document.createEvent('MouseEvent');
+    evt.initMouseEvent('click');
+    dm.svg.node().dispatchEvent(evt);
+  };
+
   it('should call only options.click.onFn the first time an icon is clicked', function() {
     clickIcon(0);
     expect(clickOnSpy).toHaveBeenCalled();
+    expect(clickOffSpy).not.toHaveBeenCalled();
+    expect(clickAwaySpy).not.toHaveBeenCalled();
   });
 
   it('should call options.click.offFn the second time an icon is clicked', function() {
@@ -55,6 +65,7 @@ describe('icons plugin - click events', function() {
     expect(clickOffSpy).not.toHaveBeenCalled();
     clickIcon(0);
     expect(clickOffSpy).toHaveBeenCalled();
+    expect(clickAwaySpy).not.toHaveBeenCalled();
   });
 
   it('should pass the icon svg element as the context (i.e. this)', function() {
@@ -160,6 +171,16 @@ describe('icons plugin - click events', function() {
     clickIcon(0);
     expect(icon0.classed('click-off')).toBe(true);
     expect(icon1.classed('click-on')).toBe(true);
+  });
+
+  it('should fire a special event when a non-icon click occurs', function() {
+    clickAwayFromIcon();
+    expect(clickAwaySpy).toHaveBeenCalled();
+  });
+
+  it('should pass the Datamap object as the context to the awayFromIconFn', function() {
+    clickAwayFromIcon();
+    expect(clickAwaySpy.calls.first().object).toBe(dm);
   });
 
 });
