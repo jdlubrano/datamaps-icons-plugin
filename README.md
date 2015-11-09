@@ -30,44 +30,101 @@ var dm = new Datamap({
 // Retrieve the data for rendering icons
 var iconsData = [
   {
-    lat: the icon's latitude,
-    lng: the icon's longitude,
-    cssClass: [optional, String] a CSS class name that is to be appended to the class set via the options parameter,
-    icon: [optional, DOM element] the svg element for an icon.  This parameter overrides the iconFn passed in the options parameter.
+    // the icon's latitude
+    lat: [int],
+
+    // the icon's longitude
+    lng: [int],
+
+    // CSS class name that is to be appended to the class set
+    // via the options parameter,
+    cssClass: [optional, String],
+
+    // The svg element for an icon.  This parameter overrides the iconFn passed in the options parameter.
+    icon: [optional, DOM element],
+
+    // Click event options
     click: {
-      onClass: [optional, String] overrides the click.onClass property in the options parameter for an individual icon,
-      offClass: [optional, String] overrides the click.offClass property in the options parameter for an individual icon
+      // overrides the click.onClass property in the 
+      // options parameter for an individual icon
+      onClass: [optional, String],
+
+      // overrides the click.offClass property in the options
+      // parameter for an individual icon
+      offClass: [optional, String]
     },
     hover: {
-      overClass: [optional, String] overrides the hover.overClass property in the options paramter for an individual icon,
-      outClass: [optional, String] overrides the hover.outClass property in the options parameter for an individual icon
+      // overrides the hover.overClass property in the options paramter
+      // for an individual icon
+      overClass: [optional, String],
+
+      // overrides the hover.outClass property in the options parameter
+      // for an individual icon
+      outClass: [optional, String]
     }
   },
   ...
 ];
 
-// Setup the options for the icons function (defaults given)
+// Setup the options for the icons plugin (defaults given)
+// These options will apply to all icons unless they are overridden
+// at the data level.
+// All properties are optional.
 var iconOpts = {
-  cssClass: 'datamap-icon', // The CSS class given to all icons
-  iconFn: function() { return a black circle with radius 5. }, // A function that returns an SVG element to serve as an icon.,
+  // The CSS class given to all icons
+  cssClass: 'datamap-icon',
+
+  // A function that returns an SVG element to serve as an icon.
+  iconFn: function() { return a black circle with radius 5. },
+
+  // Hover event options
   hover: {
-    // Hover functions are passed the icon svg element as their context (i.e. this)
-    // and the icon's data and index as the paramters.
-    overFn: null, // A function to be executed when an icon undergoes a mouseover event.
-    outFn: null, // A function to be executed when an icon undergoes a mouseout event.
-    overClass: 'hover-over', // A CSS class applied to an icon on a mouseover event
-    outClass: 'hover-out', // A CSS class applied to an icon on a mouseout event
+    // Hover functions are passed the icon svg 
+    // element as their context (i.e. this)
+    // and the icon's data and index are passed as arguments.
+
+    // A function to be executed when an icon undergoes a mouseover event.
+    overFn: null,
+
+    // A function to be executed when an icon undergoes a mouseout event.
+    outFn: null,
+
+    // A CSS class applied to an icon on a mouseover event.
+    overClass: 'hover-over',
+
+    // A CSS class applied to an icon on a mouseout event.
+    outClass: 'hover-out',
   },
   click: {
-    allowMultiple: false, // Allow multiple icons to be in a clicked state
+    // Allow multiple icons to be in a clicked state
+    allowMultiple: false,
+
     // Click functions are called with the icon svg element as the context
     // and the icon's data as the first argument.
-    onFn: null, // A function to be executed when an icon is clicked and was previously in an unclicked state.
-    offFn: null, // A function to be executed when an icon is clicked and was previously in a clicked state.
-    onClass: 'click-on', // A CSS class applied to an icon in a clicked state.
-    offClass: 'click-off', // A CSS class applied to an icon in an unclicked state.  This does not get applied to icons by default, only after they are clicked off.
-    clickOffOnClickAway: false, // Execute the clickOff function for all icons in a clicked state when the Datamaps svg is clicked but an icon was not.
-    awayFromIconFn: null // A function to be executed when the Datamaps svg is clicked but an icon was not.  The Datamaps object is passed as the context.
+
+    // A function to be executed when an icon is clicked
+    // and was previously in an unclicked state.
+    onFn: null,
+
+    // A function to be executed when an icon is clicked
+    // and was previously in a clicked state.
+    offFn: null,
+
+    // A CSS class applied to an icon in a clicked state.
+    onClass: 'click-on',
+
+    // A CSS class applied to an icon in an unclicked state.  This does not get
+    // applied to icons by default, only after the icon is clicked on
+    // then later clicked off does this class get applied.
+    offClass: 'click-off',
+
+    // Execute the clickOff function for all icons in a clicked state when the
+    // Datamaps svg is clicked but an icon was not.
+    clickOffOnClickAway: false,
+
+    // A function to be executed when the Datamaps svg is clicked
+    // but an icon was not.  The Datamaps object is passed as the context.
+    awayFromIconFn: null
   }
 };
 
