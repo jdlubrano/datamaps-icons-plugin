@@ -40,7 +40,8 @@ var iconsData = [
     // via the options parameter,
     cssClass: [optional, String],
 
-    // The svg element for an icon.  This parameter overrides the iconFn passed in the options parameter.
+    // The svg element for an icon.
+    // This parameter overrides the iconFn passed in the options parameter.
     icon: [optional, DOM element],
 
     // Click event options
