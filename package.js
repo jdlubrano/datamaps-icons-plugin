@@ -11,7 +11,7 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('0.9.0');
-  api.use('hyperborea:datamaps', 'client');
+  api.use('hyperborea:datamaps@1.0.5', 'client');
   api.imply('hyperborea:datamaps', 'client');
   api.addFiles(['build/datamaps-icons.js'], 'client');
 });
