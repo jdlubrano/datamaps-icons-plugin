@@ -21,7 +21,7 @@ Run `npm install datamaps-icons`.  The source will then be located in
 `node_modules/datamaps-icons/build`.
 
 ## Example Usage
-```
+```javascript
 // Create a Datamaps instance
 var dm = new Datamap({
   element: document.getElementById('map')
