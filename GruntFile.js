@@ -30,7 +30,7 @@ module.exports = function(grunt) {
             'node_modules/jquery/dist/jquery.js',
             'node_modules/jasmine-jquery/lib/jasmine-jquery.js',
             'node_modules/d3/d3.min.js',
-            'node_modules/datamaps/node_modules/topojson/topojson.min.js',
+            'node_modules/topojson/build/topojson.min.js',
             'node_modules/datamaps/dist/datamaps.all.js'
           ],
           specs: [
