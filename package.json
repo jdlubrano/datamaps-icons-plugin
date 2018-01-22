@@ -24,7 +24,7 @@
     "grunt-text-replace": "^0.4.0",
     "grunt-version": "^1.0.0",
     "jasmine-jquery": "^2.1.1",
-    "jquery": "^2.1.4",
+    "jquery": "~> 3.0.0",
     "spacejam": "^1.2.2"
   },
   "dependencies": {
